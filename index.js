@@ -44,6 +44,6 @@ app.use("/api/BookRide",BookRideByPassenger);
   
  
 
-app.listen(process.env.PORT, "0.0.0.0", () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`🚀 Server is listening on the port:${port}`);
 });
