@@ -11,6 +11,8 @@ const availableRides = require("./Routes/fetchAllRides.js");
 const BookRideByPassenger = require("./Routes/BookingRideByPassenger.js");
 require('dotenv').config();
 
+const port = process.env.PORT || 8001 ;
+
 
 
 
@@ -43,5 +45,5 @@ app.use("/api/BookRide",BookRideByPassenger);
  
 
 app.listen(process.env.PORT, "0.0.0.0", () => {
-  console.log(`🚀 Server is listening on the port:${process.env.PORT || 8001}`);
+  console.log(`🚀 Server is listening on the port:${port}`);
 });
