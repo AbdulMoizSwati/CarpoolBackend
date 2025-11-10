@@ -1,4 +1,6 @@
+require('dotenv').config();
 const mongoose = require("mongoose");
+
 
 function Connect(){
 mongoose.connect("mongodb://localhost:27017/Nodecarpoll").then(()=>{
