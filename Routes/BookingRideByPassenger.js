@@ -20,34 +20,49 @@ router.post("/", async (req, res) => {
     const ride = await Ride.findById(rideId);
     if (!ride) return res.status(404).json({ error: "Ride not found" });
 
+    // Check seat availability
     if (ride.availableSeats < seatsBooked) {
       return res.status(400).json({ error: "Not enough seats available" });
     }
 
-    // Create the booking
-    const booking = new Booking({
-      rideId,
-      driverId: ride.driverId,
-      driverName: ride.driverName,
-      passengerId,
-      passengerName,
-      seatsBooked,
-      pricePerSeat: ride.pricePerSeat,
-    });
+    // Check if user already booked this ride
+    let existingBooking = await Booking.findOne({ rideId, passengerId });
 
-    await booking.save();
+    if (existingBooking) {
+      // User already has a booking → increment seats
+      existingBooking.seatsBooked += seatsBooked;
+      await existingBooking.save();
+    } else {
+      // Create a new booking
+      existingBooking = new Booking({
+        rideId,
+        driverId: ride.driverId,
+        driverName: ride.driverName,
+        passengerId,
+        passengerName,
+        seatsBooked,
+        pricePerSeat: ride.pricePerSeat,
+      });
 
-    // Decrement available seats
+      await existingBooking.save();
+    }
+
+    // Update available seats
     ride.availableSeats -= seatsBooked;
     if (ride.availableSeats === 0) ride.rideStatus = "completed";
     await ride.save();
 
-    res.status(201).json({ message: "Booking successful", booking });
+    res.status(201).json({
+      message: existingBooking ? "Seats updated in your booking" : "Booking successful",
+      booking: existingBooking,
+    });
+
   } catch (err) {
     console.error("Error creating booking:", err);
     res.status(500).json({ error: "Server error while booking ride" });
   }
 });
+
 
 // ----------------------------
 // GET all bookings of a passenger
