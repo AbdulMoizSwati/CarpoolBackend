@@ -10,6 +10,7 @@ const updateProfile  = require("./Routes/UpdateRoute.js");
 const availableRides = require("./Routes/fetchAllRides.js");
 const BookRideByPassenger = require("./Routes/BookingRideByPassenger.js");
 require('dotenv').config();
+const recentBookings = require("./Routes/fetchPassengerRides.js");
 
 const port = process.env.PORT || 8001 ;
 
@@ -38,6 +39,7 @@ app.use("/api/users/pendingrides",FetchPendingRideRouter);
 app.use("/api/users", updateProfile);
 app.use("/api/availabeRides",availableRides);
 app.use("/api/BookRide",BookRideByPassenger);
+app.use("/recent-bookings", recentBookings);
 
 
 
