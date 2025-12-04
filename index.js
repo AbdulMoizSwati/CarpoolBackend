@@ -39,7 +39,7 @@ app.use("/api/users/pendingrides",FetchPendingRideRouter);
 app.use("/api/users", updateProfile);
 app.use("/api/availabeRides",availableRides);
 app.use("/api/BookRide",BookRideByPassenger);
-app.use("/recent-bookings", recentBookings);
+app.use("/api/recent-bookings", recentBookings);
 
 
 
