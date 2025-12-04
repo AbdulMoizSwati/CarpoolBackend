@@ -1,5 +1,5 @@
 const express = require("express");
-const Booking = require("../Model/booking.js");
+const Booking = require("../Model/bookingModel.js");
 const Ride = require("../Model/postRide.js");
 const router = express.Router();
 
@@ -37,4 +37,5 @@ router.get("/:passengerId", async (req, res) => {
   }
 });
 
+// Export the router
 module.exports = router;
